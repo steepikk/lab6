@@ -1,0 +1,115 @@
+[
+  {
+    "id": 3,
+    "name": "Dragon_Vasiliy",
+    "coordinates": {
+      "x": 10.1,
+      "y": 12
+    },
+    "creationDate": "2024-04-15",
+    "age": 90,
+    "description": "I love it",
+    "color": "GREEN",
+    "character": "GOOD",
+    "killer": null
+  },
+  {
+    "id": 5,
+    "name": "Dragon_Vasiliy",
+    "coordinates": {
+      "x": 10.1,
+      "y": 12
+    },
+    "creationDate": "2024-04-26",
+    "age": 90,
+    "description": "I love it",
+    "color": "GREEN",
+    "character": "GOOD",
+    "killer": null
+  },
+  {
+    "id": 1,
+    "name": "dragon_1",
+    "coordinates": {
+      "x": 10.2,
+      "y": 14
+    },
+    "creationDate": "2024-04-15",
+    "age": 18,
+    "description": "Love soda!",
+    "color": "ORANGE",
+    "character": "FICKLE",
+    "killer": {
+      "name": "Vova",
+      "weight": 78,
+      "eyeColor": "BLUE",
+      "hairColor": "BROWN"
+    }
+  },
+  {
+    "id": 7,
+    "name": "Dragon_Vasiliy",
+    "coordinates": {
+      "x": 10.1,
+      "y": 12
+    },
+    "creationDate": "2024-05-08",
+    "age": 90,
+    "description": "I love it",
+    "color": "GREEN",
+    "character": "GOOD",
+    "killer": null
+  },
+  {
+    "id": 4,
+    "name": "Dragon_Vasiliy",
+    "coordinates": {
+      "x": 10.1,
+      "y": 12
+    },
+    "creationDate": "2024-04-26",
+    "age": 90,
+    "description": "I love it",
+    "color": "GREEN",
+    "character": "GOOD",
+    "killer": null
+  },
+  {
+    "id": 6,
+    "name": "Stepik",
+    "coordinates": {
+      "x": 10.0,
+      "y": 19
+    },
+    "creationDate": "2024-05-03",
+    "age": 18,
+    "description": "I love you!@",
+    "color": "BLUE",
+    "character": "FICKLE",
+    "killer": {
+      "name": "Vasya",
+      "weight": 78,
+      "eyeColor": "ORANGE",
+      "hairColor": "BROWN"
+    }
+  },
+  {
+    "id": 2,
+    "name": "dragon_2",
+    "coordinates": {
+      "x": 9.8,
+      "y": 10
+    },
+    "creationDate": "2024-04-15",
+    "age": 83,
+    "description": "Without",
+    "color": "BLACK",
+    "character": "GOOD",
+    "killer": {
+      "name": "Boba",
+      "weight": 55,
+      "eyeColor": "ORANGE",
+      "hairColor": "BLACK"
+    }
+  }
+]
