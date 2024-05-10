@@ -14,6 +14,20 @@
     "killer": null
   },
   {
+    "id": 8,
+    "name": "d",
+    "coordinates": {
+      "x": 0.0,
+      "y": 0
+    },
+    "creationDate": "2024-05-10",
+    "age": 1,
+    "description": "1",
+    "color": "GREEN",
+    "character": "GOOD",
+    "killer": null
+  },
+  {
     "id": 5,
     "name": "Dragon_Vasiliy",
     "coordinates": {

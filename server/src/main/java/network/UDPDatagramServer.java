@@ -10,12 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.*;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 public class UDPDatagramServer extends UDPServer {
-    private final int PACKET_SIZE = 1024;
-    private final int DATA_SIZE = PACKET_SIZE - 1;
+    private final int PACKET_SIZE = 20;
+    private final int DATA_SIZE = PACKET_SIZE - 2;
 
     private final DatagramSocket datagramSocket;
 
@@ -30,7 +31,9 @@ public class UDPDatagramServer extends UDPServer {
     @Override
     public Pair<Byte[], SocketAddress> receiveData() throws IOException {
         var received = false;
+        int count = 0;
         var result = new byte[0];
+        var receivedPackets = new HashMap<Integer, byte[]>();
         SocketAddress addr = null;
 
         while(!received) {
@@ -38,22 +41,36 @@ public class UDPDatagramServer extends UDPServer {
 
             var dp = new DatagramPacket(data, PACKET_SIZE);
             datagramSocket.receive(dp);
+            count += 1;
 
             addr = dp.getSocketAddress();
             logger.info("Получено \"" + new String(data) + "\" от " + dp.getAddress());
-            logger.info("Последний байт: " + data[data.length - 1]);
+            logger.info("Последние 2 байта: " + data[data.length - 2]);
 
-            if (data[data.length - 1] == 1) {
+            int num_packets = data[data.length - 2];
+            int num_packet = data[data.length - 1];
+
+            receivedPackets.put(num_packet, Arrays.copyOf(data, data.length - 2));
+
+            if (count == num_packets) {
                 received = true;
                 logger.info("Получение данных от " + dp.getAddress() + " окончено");
             }
-            result = Bytes.concat(result, Arrays.copyOf(data, data.length - 1));
+
         }
+
+        TreeMap<Integer, byte[]> sortedReceivedPackets = new TreeMap<>(receivedPackets);
+
+        for (byte[] packetData : sortedReceivedPackets.values()) {
+            result = Bytes.concat(result, packetData);
+        }
+
         return new ImmutablePair<>(ArrayUtils.toObject(result), addr);
     }
 
     @Override
     public void sendData(byte[] data, SocketAddress addr) throws IOException {
+        int num_packets = (int) Math.ceil(data.length / (double)DATA_SIZE);
         byte[][] ret = new byte[(int)Math.ceil(data.length / (double)DATA_SIZE)][DATA_SIZE];
 
         int start = 0;
@@ -66,16 +83,9 @@ public class UDPDatagramServer extends UDPServer {
 
         for(int i = 0; i < ret.length; i++) {
             var chunk = ret[i];
-            if (i == ret.length - 1) {
-                var lastChunk = Bytes.concat(chunk, new byte[]{1});
-                var dp = new DatagramPacket(lastChunk, PACKET_SIZE, addr);
-                datagramSocket.send(dp);
-                logger.info("Последний чанк размером " + chunk.length + " отправлен на сервер.");
-            } else {
-                var dp = new DatagramPacket(ByteBuffer.allocate(PACKET_SIZE).put(chunk).array(), PACKET_SIZE, addr);
-                datagramSocket.send(dp);
-                logger.info("Чанк размером " + chunk.length + " отправлен на сервер.");
-            }
+            var newChunk = Bytes.concat(chunk, new byte[]{(byte) num_packets, (byte) (i + 1)});
+            var dp = new DatagramPacket(newChunk, PACKET_SIZE, addr);
+            datagramSocket.send(dp);
         }
 
         logger.info("Отправка данных завершена");
